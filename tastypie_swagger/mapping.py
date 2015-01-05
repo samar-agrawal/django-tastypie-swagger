@@ -2,7 +2,11 @@ import datetime
 import logging
 
 from django.db.models.sql.constants import QUERY_TERMS
-from django.utils.encoding import force_unicode
+
+try:
+        from django.utils.encoding import force_text
+except ImportError:
+        from django.utils.encoding import force_unicode as force_text
 
 from tastypie import fields
 
@@ -134,7 +138,7 @@ class ResourceSwaggerMapping(object):
                     name=name,
                     dataType=field['type'],
                     required=not field['blank'],
-                    description=force_unicode(field['help_text']),
+                    description=force_text(field['help_text']),
                 ))
         return parameters
 
@@ -180,7 +184,7 @@ class ResourceSwaggerMapping(object):
                     name=name,
                     dataType=type,
                     required=False,
-                    description=force_unicode(desc),
+                    description=force_text(desc),
                 ))
         if 'filtering' in self.schema and method.upper() == 'GET':
             for name, field in self.schema['filtering'].items():
@@ -237,7 +241,7 @@ class ResourceSwaggerMapping(object):
 
                         for query in field:
                             if query == 'exact':
-                                description = force_unicode(schema_field['help_text'])
+                                description = force_text(schema_field['help_text'])
 
                                 # Use a better description for related models with exact filter
                                 parameters.append(self.build_parameter(
@@ -253,7 +257,7 @@ class ResourceSwaggerMapping(object):
                                     name="%s%s__%s" % (prefix, name, query),
                                     dataType=dataType,
                                     required = False,
-                                    description=force_unicode(schema_field['help_text']),
+                                    description=force_text(schema_field['help_text']),
                                 ))
 
         return parameters
@@ -284,7 +288,7 @@ class ResourceSwaggerMapping(object):
                 name=name,
                 dataType=field.get("type", "string"),
                 required=field.get("required", True),
-                description=force_unicode(field.get("description", "")),
+                description=force_text(field.get("description", "")),
             ))
 
         # For non-standard API functionality, allow the User to declaritively
@@ -443,7 +447,7 @@ class ResourceSwaggerMapping(object):
                     field.get('type'),
                     # note: 'help_text' is a Django proxy which must be wrapped
                     # in unicode *specifically* to get the actual help text.
-                    force_unicode(field.get('help_text', '')),
+                    force_text(field.get('help_text', '')),
                 )
             )
         return properties
