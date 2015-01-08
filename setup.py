@@ -12,7 +12,7 @@ except Exception:
 
 setup(
     # Metadata
-    name='django-tastypie-swagger',
+    name='django-tastypie-swagger-python3',
     version='.'.join(map(str, tastypie_swagger.VERSION)),
     description=description,
     long_description=longdesc,
@@ -23,8 +23,8 @@ setup(
         'Environment :: Web Environment',
         'Framework :: Django',
     ],
-    url='https://github.com/concentricsky/django-tastypie-swagger',
-    download_url='https://github.com/concentricsky/django-tastypie-swagger/downloads',
+    url='https://github.com/williamfligor/django-tastypie-swagger',
+    download_url='https://github.com/williamfligor/django-tastypie-swagger/downloads',
     license='BSD',
     packages=['tastypie_swagger'],
     include_package_data=True,
